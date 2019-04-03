@@ -11,12 +11,19 @@ clientSocket.connect((serverName, serverPort))
 message = clientSocket.recv(1024).decode('utf-8')
 print(message)
 sentence = ""
-
-while sentence != "quit":
-    sentence = input("You: ")
-    clientSocket.send(sentence.encode('utf-8'))
-    message = clientSocket.recv(1024).decode('utf-8')
-    print("Stranger:", message)
+#sentence != "quit"
+while True:
+	while (clientSocket.recv(1024).decode('utf-8') ==""):
+			if (clientSocket.recv(1024).decode('utf-8') !=""):
+				break
+			sentence = input("You: ")
+			if (sentence == "quit"):
+				break
+			clientSocket.send(sentence.encode('utf-8'))
+	if(sentence == "quit"):
+		break
+	message = clientSocket.recv(1024).decode('utf-8')
+	print("Stranger: ", message)
 
 print("Disconnected")
 clientSocket.close()
